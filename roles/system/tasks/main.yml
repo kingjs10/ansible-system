@@ -134,6 +134,18 @@
     - chrony restart
 
 
+########
+#add ansible.cfg
+######
+- name: add ansible timestamps so that we can see details
+  lineinfile:
+    path: /etc/ansible/ansible.cfg
+    insertafter: "some basic default values"
+    state: present
+    line: callback_whitelist = profile_tasks
+  become: yes
+
+
 ######
 ##sysctl
 ######
