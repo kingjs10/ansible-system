@@ -1,0 +1,13 @@
+#!/bin/bash
+export HOME=/root
+# export AWS_DEFAULT_REGION=`curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep -oP '\"region\"[[:space:]]*:[[:space:]]*\"\K[^\"]+'`
+export AWS_DEFAULT_REGION=us-east-1
+PLAYBOOKS=`aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --filters "Name=key,Values=ansible_playbooks" |jq -r .Tags[0].Value`
+git config --global credential.helper '!aws codecommit credential-helper $@'
+git config --global credential.UseHttpPath true
+for playbook in $PLAYBOOKS; do
+  REPO=`echo $playbook | awk -F: '{print $1}'`
+  REF=`echo $playbook | awk -F: '{print $2}'`
+  FILE=`echo $playbook | awk -F: '{print $3}'`
+  ansible-pull -U https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-$REPO -C $REF $FILE
+done
