@@ -1,5 +1,5 @@
-# ansible-elasticsearch
-This will setup elasticsearch.
+# ansible-system
+This will setup the OS stuff.
 
-This should be used with the terraform module for elasticsearch and ansible-pull.
+This is meant to be used with the terraform module for elasticsearch and ansible-pull.
 AWS tags are heavily used and therefore it won't run in openstack at this time.
