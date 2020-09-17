@@ -1,0 +1,203 @@
+---
+#get our info from aws
+- ec2_metadata_facts:
+
+- name: Find our AWS region
+  shell: curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
+  register: aws_region
+
+#pull the hostname from aws tags
+- name: Find the hostname from meta data
+  shell: echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
+
+- name: read in the hostname
+  shell: hostname $(cat /etc/hostname) 
+
+- name: set hostname var
+  shell: cat /etc/hostname
+  register: local_hostname  
+
+- name: configure hosts file
+  template:
+    src: templates/hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0642
+  become: yes
+
+############
+#
+# add influxdb repo
+#
+############
+- name: Check if telegraf is installed
+  command: dpkg-query -W telegraf
+  register: telegraf_check_deb
+  failed_when: telegraf_check_deb.rc > 1
+  changed_when: telegraf_check_deb.rc == 1
+
+- name: add influxdb repository keys
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+  become: yes
+  when: telegraf_check_deb.rc == 1
+
+- name: add telegraf repository
+  apt_repository:
+    repo: deb https://repos.influxdata.com/{{ ansible_lsb['id']|lower }} {{ ansible_lsb['codename'] }} stable
+    state: present
+    filename: influxdb
+  become: yes
+  when: telegraf_check_deb.rc == 1
+
+- name: Wait for automatic system updates
+  become: yes
+  shell: while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 1; done;
+
+#install common packages
+- name: Install a list of packages
+  apt:
+    pkg:
+      - zsh
+      - nano
+      - facter
+      - awscli
+      - jq
+      - mlocate
+      - python3-pip
+      - python3-boto
+      - net-tools
+      - bash-completion
+      - zip
+      - chrony
+      - telegraf
+
+- name: configure telegraf.conf
+  template:
+    src: templates/telegraf.conf.j2
+    dest: /etc/telegraf/telegraf.conf
+    owner: telegraf
+    group: telegraf
+    mode: 0660
+  become: yes
+  register: telegraf_configuration
+  notify:
+    - telegraf restart
+
+- name: add telegraf service to onboot
+  service: name=telegraf enabled=yes
+  become: yes
+
+- name: start telegraf service
+  service: name=telegraf state=started
+  become: yes
+
+#we need to get our aws inventory easily
+- name: configure ec2.py
+  template:
+    src: ec2.py.j2
+    dest: /etc/ansible/hosts
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
+- name: configure ec2.ini
+  template:
+    src: ec2.ini.j2
+    dest: /etc/ansible/ec2.ini
+    owner: root
+    group: root
+    mode: 0744
+  become: yes
+
+- name: configure resolv.conf file
+  template:
+    src: templates/resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+#######
+# we use the admin group to grant sudo
+- name: Ensure group "admin" exists
+  group:
+    name: admin
+    state: present
+
+###add jareking
+- name: Add jareking
+  user:
+    name: jareking
+    shell: /bin/bash
+    groups: admin
+    append: yes
+
+###add public key
+- name: add jareking ssh pubkey
+  authorized_key:
+    user: jareking
+    state: present
+    key: "{{ item }}"
+  with_file:
+    - public_keys/jareking
+
+# NOTE: Fully quoted because of the ': ' on the line. See the Gotchas in the YAML docs.
+- name: Validate the sudoers file before saving
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^%ADMIN ALL="
+    line: "%ADMIN ALL=(ALL) NOPASSWD: ALL"
+    validate: /usr/sbin/visudo -cf %s
+########
+#chrony - ntp
+######
+- name: Setup Chrony to use aws time server
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: 'server 169.254.169.123'
+    line: server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+  notify:
+    - chrony restart
+
+
+######
+##sysctl
+######
+
+######
+#max watched files
+######
+
+- sysctl:
+    name: fs.inotify.max_user_watches
+    value: "524288"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+######
+# elasticseatch virtual memory
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+######
+- sysctl:
+    name: vm.max_map_count
+    value: "262144"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- sysctl:
+    name: fs.file-max
+    value: "2000064"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+
+
+

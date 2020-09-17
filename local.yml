@@ -1,0 +1,10 @@
+---
+ - name: Maintain base system config
+   hosts: localhost
+   gather_facts: yes
+   user: root
+   vars_files:
+     - group_vars/main.yml
+     #- "vars/{{ Environment }}/main.yml"
+   roles:
+     - system
