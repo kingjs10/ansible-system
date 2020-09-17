@@ -121,38 +121,7 @@
     group: root
     mode: 0644
   become: yes
-#######
-# we use the admin group to grant sudo
-- name: Ensure group "admin" exists
-  group:
-    name: admin
-    state: present
 
-###add jareking
-- name: Add jareking
-  user:
-    name: jareking
-    shell: /bin/bash
-    groups: admin
-    append: yes
-
-###add public key
-- name: add jareking ssh pubkey
-  authorized_key:
-    user: jareking
-    state: present
-    key: "{{ item }}"
-  with_file:
-    - public_keys/jareking
-
-# NOTE: Fully quoted because of the ': ' on the line. See the Gotchas in the YAML docs.
-- name: Validate the sudoers file before saving
-  lineinfile:
-    path: /etc/sudoers
-    state: present
-    regexp: "^%ADMIN ALL="
-    line: "%ADMIN ALL=(ALL) NOPASSWD: ALL"
-    validate: /usr/sbin/visudo -cf %s
 ########
 #chrony - ntp
 ######
