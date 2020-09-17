@@ -9,3 +9,6 @@
   service: name=telegraf state=restarted
   become: yes
 
+- name: syslog restart
+  service: name=syslog state=restarted
+  become: yes
