@@ -28,6 +28,15 @@
     mode: 0642
   become: yes
 
+ - name: Create logrotate entry for ansible_player.log
+   template: 
+     src: templates/etc_logrotate.d_ansible_player.j2 
+     dest: /etc/logrotate.d/ansible_player
+     owner: root 
+     group: root 
+     mode: 0644
+  become: yes
+
 ############
 #
 # add influxdb repo
