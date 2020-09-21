@@ -209,6 +209,44 @@
     state: present
     reload: yes
 
+- name: net.ipv4.neigh.default.gc_thresh1
+  sysctl:
+    name: net.ipv4.neigh.default.gc_thresh1
+    value: "4092"
+    sysctl_set: yes
+    state: present
+    reload: yes
 
+- name: net.ipv4.neigh.default.gc_thresh2
+  sysctl:
+    name: net.ipv4.neigh.default.gc_thresh2
+    value: "8192"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: net.ipv4.neigh.default.gc_thresh3
+  sysctl:
+    name: net.ipv4.neigh.default.gc_thresh3
+    value: "8192"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: net.ipv4.neigh.default.base_reachable_time
+  sysctl:
+    name: net.ipv4.neigh.default.base_reachable_time
+    value: "86400"
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: net.ipv4.neigh.default.gc_stale_time
+  sysctl:
+    name: net.ipv4.neigh.default.gc_stale_time
+    value: "86400"
+    sysctl_set: yes
+    state: present
+    reload: yes
 
 
