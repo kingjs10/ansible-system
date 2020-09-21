@@ -2,7 +2,7 @@
 #get our info from aws
 - ec2_metadata_facts:
 
-- name: ansible_player
+- name: maintain ansible_player
   copy: 
     src: files/ansible_player
     dest: /usr/local/bin/ansible_player
@@ -10,7 +10,7 @@
     group: root 
     mode: 0744
 
-- name: ansible_player.cron
+- name: maintain ansible_player.cron
   copy: 
     src: files/ansible_player.cron
     dest: /etc/cron.d/ansible_player
