@@ -1,19 +1,19 @@
 ---
-  - name: "apply system changes"
-    hosts: localhost
-    connection: local
-    tasks:
-    - name: ansible_player
-      copy: # setup ansible_player
-        dest: /usr/local/bin/ansible_player
-        owner: root
-        group: root
-        mode: '0755'
-        src: ./files/ansible_player
-    - name: ansible_player cron
-      copy: # the cron job
-        dest: /etc/cron.d/ansible_player
-        owner: root
-        group: root
-        mode: '0440'
-        src: ./files/ansible_player.cron
+- name: "apply system changes"
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: ansible_player
+    copy: # setup ansible_player
+      dest: /usr/local/bin/ansible_player
+      owner: root
+      group: root
+      mode: '0755'
+      src: ./files/ansible_player
+- name: ansible_player cron
+  copy: # the cron job
+    dest: /etc/cron.d/ansible_player
+    owner: root
+    group: root
+    mode: '0440'
+    src: ./files/ansible_player.cron

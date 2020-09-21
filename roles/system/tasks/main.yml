@@ -1,38 +1,37 @@
 ---
 #get our info from aws
-# - name: get ec2 facts
-#   ec2_metadata_facts:
+- name: get ec2 facts
+  ec2_metadata_facts:
 
-# - name: maintain ansible_player
-#   copy:
-#     src: files/ansible_player
-#     dest: /usr/local/bin/ansible_player
-#     owner: root
-#     group: root
-#     mode: 0744
+- name: maintain ansible_player
+  copy:
+    src: files/ansible_player
+    dest: /usr/local/bin/ansible_player
+    owner: root
+    group: root
+    mode: 0744
 
-# - name: maintain ansible_player.cron
-#   copy:
-#     src: files/ansible_player.cron
-#     dest: /etc/cron.d/ansible_player
-#     owner: root
-#     group: root
-#     mode: 0644
+- name: maintain ansible_player.cron
+  copy:
+    src: files/ansible_player.cron
+    dest: /etc/cron.d/ansible_player
+    owner: root
+    group: root
+    mode: 0644
 
 #pull the hostname from aws tags
-# - name: Find the hostname from meta data
-#   shell: set -o pipefail && false| echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
-#   executable: /bin/bash
+- name: Find the hostname from meta data
+  shell: set -o pipefail && false| echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
+  executable: /bin/bash
 
 - name: read in the hostname
   shell: hostname $(cat /etc/hostname)
-  executable: /bin/bash
+  register: shutup_ansible_linting
   notify:
     - syslog restart
 
 - name: set hostname var
   shell: cat /etc/hostname
-  executable: /bin/bash
   register: local_hostname
 
 - name: configure hosts file

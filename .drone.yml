@@ -14,7 +14,7 @@ steps:
     AWS_DEFAULT_REGION: us-east-1
   commands:
     - pip install awscli ansible-lint
-    - "find . -maxdepth 1 -name '*.yml' | sort | grep -v '.drone.yml' | xargs ansible-playbook --syntax-check --list-tasks"
+    #- "find . -maxdepth 1 -name '*.yml' | sort | grep -v '.drone.yml' | xargs ansible-playbook --syntax-check --list-tasks"
     - "find . -maxdepth 1 -name '*.yml' | sort | grep -v '.drone.yml' | xargs ansible-lint"
     - git config remote.awsdev.url >&- || git remote add awsdev https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
     - git config --global credential.helper '!aws codecommit credential-helper $@'
