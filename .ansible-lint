@@ -1,0 +1,6 @@
+
+skip_list:
+  - '202'  # Octal file permissions must contain leading zero or be a string'                                                                                                                                                                                    │
+  - '204'  # Lines should be no longer than 160 chars'                                                                                                                                                                                                           │
+  - '301'  # Commands should not change things if nothing needs doing'                                                                                                                                                                                           │
+  - '305'  # Use shell only when shell functionality is required'

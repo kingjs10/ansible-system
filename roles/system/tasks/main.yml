@@ -1,40 +1,45 @@
 ---
 #get our info from aws
-- ec2_metadata_facts:
+- name: get ec2 facts
+  ec2_metadata_facts:
 
 - name: maintain ansible_player
-  copy: 
+  copy:
     src: files/ansible_player
     dest: /usr/local/bin/ansible_player
-    owner: root 
-    group: root 
+    owner: root
+    group: root
     mode: 0744
 
 - name: maintain ansible_player.cron
-  copy: 
+  copy:
     src: files/ansible_player.cron
     dest: /etc/cron.d/ansible_player
-    owner: root 
-    group: root 
+    owner: root
+    group: root
     mode: 0644
 
 
 - name: Find our AWS region
-  shell: curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
+  shell: set -o pipefail && false |curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
+  executable: /bin/bash
   register: aws_region
 
 #pull the hostname from aws tags
 - name: Find the hostname from meta data
-  shell: echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
+  shell: set -o pipefail && false| echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
+  executable: /bin/bash
 
 - name: read in the hostname
   shell: hostname $(cat /etc/hostname)
+  executable: /bin/bash
   notify:
-    - syslog restart 
+    - syslog restart
 
 - name: set hostname var
   shell: cat /etc/hostname
-  register: local_hostname  
+  executable: /bin/bash
+  register: local_hostname
 
 - name: configure hosts file
   template:
@@ -46,11 +51,11 @@
   become: yes
 
 - name: Create logrotate entry for ansible_player.log
-  template: 
-    src: templates/etc_logrotate.d_ansible_player.j2 
+  template:
+    src: templates/etc_logrotate.d_ansible_player.j2
     dest: /etc/logrotate.d/ansible_player
-    owner: root 
-    group: root 
+    owner: root
+    group: root
     mode: 0644
   become: yes
 
@@ -178,11 +183,8 @@
 ##sysctl
 ######
 
-######
-#max watched files
-######
-
-- sysctl:
+- name: max watched files
+  sysctl:
     name: fs.inotify.max_user_watches
     value: "524288"
     sysctl_set: yes
@@ -193,14 +195,16 @@
 # elasticseatch virtual memory
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
 ######
-- sysctl:
+- name: maximum number of memory map areas
+  sysctl:
     name: vm.max_map_count
     value: "262144"
     sysctl_set: yes
     state: present
     reload: yes
 
-- sysctl:
+- name: maximum file descriptors
+  sysctl:
     name: fs.file-max
     value: "2000064"
     sysctl_set: yes
