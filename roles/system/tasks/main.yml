@@ -23,7 +23,7 @@
   shell: set -o pipefail && true| curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
   args:
     executable: /bin/bash
-  regsiter: aws_region
+  register: aws_region
 
 #pull the hostname from aws tags
 - name: Find the hostname from meta data
