@@ -1,7 +1,7 @@
 ---
 #get our info from aws
-- name: get ec2 facts
-  ec2_metadata_facts:
+# - name: get ec2 facts
+#   ec2_metadata_facts:
 
 - name: maintain ansible_player
   copy:
