@@ -19,12 +19,6 @@
     group: root
     mode: 0644
 
-
-- name: Find our AWS region
-  shell: set -o pipefail && false| curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
-  executable: /bin/bash
-  register: aws_region
-
 #pull the hostname from aws tags
 - name: Find the hostname from meta data
   shell: set -o pipefail && false| echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
