@@ -1,7 +1,7 @@
 ---
   - name: "apply system changes"
     hosts: localhost
-    connection: local 
+    connection: local
     tasks:
     - copy: # setup ansible_player
         dest: /usr/local/bin/ansible_player
