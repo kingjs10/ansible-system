@@ -30,10 +30,10 @@
 #   notify:
 #     - syslog restart
 
-- name: set hostname var
-  shell: cat /etc/hostname
-  executable: /bin/bash
-  register: local_hostname
+# - name: set hostname var
+#   shell: cat /etc/hostname
+#   executable: /bin/bash
+#   register: local_hostname
 
 - name: configure hosts file
   template:
