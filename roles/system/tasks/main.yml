@@ -3,21 +3,21 @@
 # - name: get ec2 facts
 #   ec2_metadata_facts:
 
-- name: maintain ansible_player
-  copy:
-    src: files/ansible_player
-    dest: /usr/local/bin/ansible_player
-    owner: root
-    group: root
-    mode: 0744
+# - name: maintain ansible_player
+#   copy:
+#     src: files/ansible_player
+#     dest: /usr/local/bin/ansible_player
+#     owner: root
+#     group: root
+#     mode: 0744
 
-- name: maintain ansible_player.cron
-  copy:
-    src: files/ansible_player.cron
-    dest: /etc/cron.d/ansible_player
-    owner: root
-    group: root
-    mode: 0644
+# - name: maintain ansible_player.cron
+#   copy:
+#     src: files/ansible_player.cron
+#     dest: /etc/cron.d/ansible_player
+#     owner: root
+#     group: root
+#     mode: 0644
 
 #pull the hostname from aws tags
 # - name: Find the hostname from meta data
