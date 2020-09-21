@@ -8,7 +8,7 @@
     dest: /usr/local/bin/ansible_player
     owner: root 
     group: root 
-    mode=0744
+    mode: 0744
 
 - name: ansible_player.cron
   copy: 
@@ -16,7 +16,7 @@
     dest: /etc/cron.d/ansible_player
     owner: root 
     group: root 
-    mode=0644
+    mode: 0644
 
 
 - name: Find our AWS region
