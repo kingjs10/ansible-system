@@ -7,7 +7,7 @@
    vars:
      # File that ansible will use for logs
      ansible_player_logfile: /var/log/ansible_player.log
-     aws_region: set -o pipefail && false| curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
+     aws_region: set -o pipefail && true| curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
    vars_files:
      - group_vars/main.yml
      #- "vars/{{ Environment }}/main.yml"
