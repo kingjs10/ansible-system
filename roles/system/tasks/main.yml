@@ -2,6 +2,23 @@
 #get our info from aws
 - ec2_metadata_facts:
 
+- name: ansible_player
+  copy: 
+    src: files/ansible_player
+    dest: /usr/local/bin/ansible_player
+    owner: root 
+    group: root 
+    mode=0744
+
+- name: ansible_player.cron
+  copy: 
+    src: files/ansible_player.cron
+    dest: /etc/cron.d/ansible_player
+    owner: root 
+    group: root 
+    mode=0644
+
+
 - name: Find our AWS region
   shell: curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'
   register: aws_region
