@@ -41,7 +41,7 @@
 
 - name: configure /etc/hostname file
   template:
-    src: templates/hostsname.j2
+    src: templates/hostname.j2
     dest: /etc/hostname
     owner: root
     group: root
