@@ -11,6 +11,12 @@
     warn: no
   register: local_hostname
 
+- name: read in the hostname
+  shell: hostname $(cat /etc/hostname)
+  args:
+    executable: /bin/bash
+    warn: no
+
 - name: maintain ansible_player
   copy:
     src: files/ansible_player
