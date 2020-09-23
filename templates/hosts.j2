@@ -5,4 +5,4 @@
 
 # Hosts managed by playbook
 
-{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}   {{ ansible_hostname }}
+{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}   {{ local_hostname }}

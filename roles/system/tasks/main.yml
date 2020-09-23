@@ -3,6 +3,14 @@
 - name: get ec2 facts
   ec2_metadata_facts:
 
+#pull the hostname from aws tags
+- name: Find the hostname from meta data
+  shell: set -o pipefail && true |echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep hostname | awk '{print $5}') > /etc/hostname
+  args:
+    executable: /bin/bash
+    warn: no
+  register: local_hostname
+
 - name: maintain ansible_player
   copy:
     src: files/ansible_player
