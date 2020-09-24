@@ -1,1 +1,2 @@
-{{ ansible_ec2_placement_region }}
+[default]
+region = {{ ansible_ec2_placement_region }}
