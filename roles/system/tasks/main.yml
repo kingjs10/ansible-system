@@ -46,7 +46,7 @@
     dest: /etc/hostname
     owner: root
     group: root
-    mode: 0642
+    mode: 0644
   become: yes
   notify:
     - syslog restart
@@ -57,7 +57,7 @@
     dest: /etc/hosts
     owner: root
     group: root
-    mode: 0642
+    mode: 0644
   become: yes
 
 - name: Create logrotate entry for ansible_player.log
