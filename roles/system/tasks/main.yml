@@ -117,6 +117,7 @@
       - zip
       - chrony
       - telegraf
+      - inetutils-traceroute
 
 - name: configure telegraf.conf
   template:
