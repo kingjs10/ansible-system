@@ -111,12 +111,18 @@
       - mlocate
       - python3-pip
       - python3-boto
+      - python3-boto3
       - python3-venv
       - net-tools
       - bash-completion
       - zip
       - chrony
       - telegraf
+
+- name: Install later version of awscli than what's available in ubuntu's repo
+  pip:
+    name: awscli>1.18.69
+    executable: /usr/bin/pip3
 
 - name: configure telegraf.conf
   template:
@@ -156,6 +162,12 @@
     group: root
     mode: 0744
   become: yes
+
+- name: ensure /root/.aws exists
+  file: 
+    path: /root/.aws 
+    state: directory 
+    mode: 0744
 
 - name: configure /root/.aws/config
   template:
