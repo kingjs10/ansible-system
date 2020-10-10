@@ -108,7 +108,7 @@
 
 - name: Download filebeat_oss
   get_url:
-    url=" https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_version }}-amd64.deb"
+    url=" https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-{{ filebeat_version }}-amd64.deb"
     dest="/home/ubuntu/filebeat-{{ filebeat_version }}-amd64.deb"
   when: filebeat_oss_check_deb.rc == 1
 
@@ -123,7 +123,7 @@
     dest: /etc/filebeat/filebeat.yml
     owner: root
     group: root
-    mode: 0660
+    mode: 0600
   become: yes
   register: filebeat_configuration
   notify:
