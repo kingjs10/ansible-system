@@ -8,6 +8,13 @@
      # File that ansible will use for logs
      ansible_player_logfile: /var/log/ansible_player.log
      filebeat_version: 7.9.2
+     filebeat_host: elasticsearch-system-internal-data.lma-dev.wbx2.com:443
+#TODO: change and move to vault
+     filebeat_user: admin
+     filebeat_password: admin
+     stage: dev
+     tag: LMA
+     
    vars_files:
      - group_vars/main.yml
      #- "vars/{{ Environment }}/main.yml"
