@@ -110,7 +110,7 @@
   get_url:
     url=" https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_version }}-amd64.deb"
     dest="/home/ubuntu/filebeat-{{ filebeat_version }}-amd64.deb"
-  when: elasticsearch_oss_check_deb.rc == 1
+  when: filebeat_oss_check_deb.rc == 1
 
 - name: Install filebeat-{{ filebeat_version }}
   apt: deb="/home/ubuntu/filebeat-{{ filebeat_version }}-amd64.deb"
