@@ -15,4 +15,4 @@
 
 - name: filebeat restart
   service: name=filebeat state=restarted
-  become: yes  
+  become: yes

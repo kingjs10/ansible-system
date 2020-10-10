@@ -159,7 +159,7 @@
       - chrony
       - telegraf
       - inetutils-traceroute
-      
+
 
 - name: Install later version of awscli than what's available in ubuntu's repo
   pip:
@@ -206,9 +206,9 @@
   become: yes
 
 - name: ensure /root/.aws exists
-  file: 
-    path: /root/.aws 
-    state: directory 
+  file:
+    path: /root/.aws
+    state: directory
     mode: 0744
 
 - name: configure /root/.aws/config
