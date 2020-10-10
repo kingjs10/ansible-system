@@ -115,7 +115,7 @@
 - name: Install filebeat-{{ filebeat_version }}
   apt: deb="/home/ubuntu/filebeat-oss-{{ filebeat_version }}-amd64.deb"
   become: yes
-  become_flags: -
+  become_flags: '-s /bin/bash'
   #when: filebeat_oss_check_deb.rc == 1
 
 - name: configure filebeat.yml
