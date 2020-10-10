@@ -113,7 +113,7 @@
   #when: filebeat_oss_check_deb.rc == 1
 
 - name: Install filebeat-{{ filebeat_version }}
-  apt: deb="/home/ubuntu/filebeat-{{ filebeat_version }}-amd64.deb"
+  apt: deb="/home/ubuntu/filebeat-oss-{{ filebeat_version }}-amd64.deb"
   become: yes
   #when: filebeat_oss_check_deb.rc == 1
 
