@@ -99,6 +99,46 @@
   become: yes
   shell: while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 1; done;
 
+#filebeat
+- name: Check if filebeat-oss is installed
+  command: dpkg-query -W filebeat
+  register: filebeat_oss_check_deb
+  failed_when: filebeat_oss_check_deb.rc > 1
+  changed_when: filebeat_oss_check_deb.rc == 1
+
+- name: Download filebeat_oss
+  get_url:
+    url=" https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_version }}-amd64.deb"
+    dest="/home/ubuntu/filebeat-{{ filebeat_version }}-amd64.deb"
+  when: elasticsearch_oss_check_deb.rc == 1
+
+- name: Install filebeat-{{ filebeat_version }}
+  apt: deb="/home/ubuntu/filebeat-{{ filebeat_version }}-amd64.deb"
+  become: yes
+  when: filebeat_oss_check_deb.rc == 1
+
+- name: configure filebeat.yml
+  template:
+    src: templates/filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    owner: root
+    group: root
+    mode: 0660
+  become: yes
+  register: filebeat_configuration
+  notify:
+    - filebeat restart
+
+- name: add filebeat service to onboot
+  service: name=filebeat enabled=yes
+  become: yes
+
+- name: start filebeat service
+  service: name=filebeat state=started
+  become: yes
+
+#/filebeat
+
 #install common packages
 - name: Install a list of packages
   apt:
@@ -118,6 +158,7 @@
       - chrony
       - telegraf
       - inetutils-traceroute
+      
 
 - name: configure telegraf.conf
   template:
