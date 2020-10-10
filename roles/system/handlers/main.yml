@@ -12,3 +12,7 @@
 - name: syslog restart
   service: name=syslog state=restarted
   become: yes
+
+- name: filebeat restart
+  service: name=filebeat state=restarted
+  become: yes  
