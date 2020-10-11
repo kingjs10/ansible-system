@@ -137,6 +137,15 @@
   service: name=filebeat state=started
   become: yes
 
+- name: enable filebeat system modules
+  shell: set -o pipefail && true |/usr/bin/filebeat modules enable system
+  args:
+    executable: /bin/bash
+    warn: no
+  register: filebeat_configuration
+  notify:
+    - filebeat restart
+
 #/filebeat
 
 #install common packages
