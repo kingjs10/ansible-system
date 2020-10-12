@@ -25,7 +25,11 @@ filebeat.inputs:
 
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
-    - /var/log/*.log
+    - /var/log/ansible_player.log
+    - /var/log/dmesg
+
+    #don't add everything here, since we have the "system" module enabled as well
+    #- /var/log/*.log
     #- c:\programdata\elasticsearch\logs\*
 
 
