@@ -270,6 +270,14 @@
     line: callback_whitelist = profile_tasks
   become: yes
 
+- name: add ansible oneline
+  lineinfile:
+    path: /etc/ansible/ansible.cfg
+    insertafter: "callback_whitelist = profile_tasks"
+    state: present
+    line: stdout_callback = oneline
+  become: yes
+
 
 ######
 ##sysctl

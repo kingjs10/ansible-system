@@ -13,5 +13,5 @@ for playbook in $PLAYBOOKS; do
   REPO=`echo $playbook | awk -F: '{print $1}'`
   REF=`echo $playbook | awk -F: '{print $2}'`
   FILE=`echo $playbook | awk -F: '{print $3}'`
-  ansible-pull --sleep 60 -i /var/lib/ansible/local/$REPO/hosts -d /var/lib/ansible/local/$REPO -U https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-$REPO -C $REF $FILE >>/var/log/ansible_player.log 2>&1
+  ansible-pull --sleep 60 -i /var/lib/ansible/local/$REPO/hosts -d /var/lib/ansible/local/$REPO -U https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-$REPO -C $REF $FILE >>/var/log/ansible_player_$REPO.log 2>&1
 done

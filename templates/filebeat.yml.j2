@@ -14,10 +14,6 @@
 
 filebeat.inputs:
 
-- type: tcp
-  max_message_size: 10MiB
-  host: "localhost:9000"
-  tags: ["json", "ansible-pull"]
 # Each - is an input. Most options can be set at the input level, so
 # you can use different inputs for various configurations.
 # Below are the input specific configurations.
@@ -29,7 +25,7 @@ filebeat.inputs:
 
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
-    - /var/log/ansible_player.log
+    - /var/log/ansible_player*.log
 #TODO fix dmesg - it loads but noting in kibana
     - /var/log/dmesg
 
