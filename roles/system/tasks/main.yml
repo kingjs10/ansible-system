@@ -161,7 +161,6 @@
       - python3-pip
       - python3-boto
       - python3-boto3
-      - python-logstash
       - python3-venv
       - net-tools
       - bash-completion
@@ -176,10 +175,6 @@
     name: awscli>1.18.69
     executable: /usr/bin/pip3
 
-- name: Install python-logstash
-  pip:
-    name: python-logstash
-    executable: /usr/bin/pip3
 
 - name: configure telegraf.conf
   template:
