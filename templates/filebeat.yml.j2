@@ -17,6 +17,7 @@ filebeat.inputs:
 - type: tcp
   max_message_size: 10MiB
   host: "localhost:9000"
+  tags: ["json", "ansible-pull"]
 # Each - is an input. Most options can be set at the input level, so
 # you can use different inputs for various configurations.
 # Below are the input specific configurations.
