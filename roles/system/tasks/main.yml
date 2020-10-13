@@ -161,6 +161,7 @@
       - python3-pip
       - python3-boto
       - python3-boto3
+      - python-logstash
       - python3-venv
       - net-tools
       - bash-completion
