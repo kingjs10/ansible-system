@@ -257,20 +257,13 @@
 ######
 #TODO add logstash callback plugin - https://github.com/ujenmr/ansible-logstash-callback or ES https://gist.github.com/metmajer/7da2f9599c2d75d80ee5
 #https://docs.ansible.com/ansible/2.9/plugins/callback.html#example-callback-plugins
-- name: add ansible timestamps so that we can see details
-  lineinfile:
-    path: /etc/ansible/ansible.cfg
-    insertafter: "some basic default values"
-    state: present
-    line: callback_whitelist = profile_tasks
-  become: yes
-
-- name: add ansible oneline
-  lineinfile:
-    path: /etc/ansible/ansible.cfg
-    insertafter: "callback_whitelist = profile_tasks"
-    state: present
-    line: stdout_callback = oneline
+- name: configure ansible.cfg
+  template:
+    src: templates/ansible.cfg.j2
+    dest: /etc/ansible/ansible.cfg
+    owner: root
+    group: root
+    mode: 0660
   become: yes
 
 
