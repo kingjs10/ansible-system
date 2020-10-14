@@ -317,7 +317,7 @@ callback_whitelist = profile_tasks. oneline
 # only update this setting if you know how this works, otherwise it can break module execution
 #network_group_modules=eos, nxos, ios, iosxr, junos, vyos
 
-# When enabled, this option allows lookups (via variables like {{lookup('foo')}} or when used as
+# When enabled, this option allows lookups (via variables like { { lookup('foo') } } or when used as
 # a loop with `with_foo`) to return data that is not marked "unsafe". This means the data may contain
 # jinja2 templating language which will be run through the templating engine.
 # ENABLING THIS COULD BE A SECURITY RISK
