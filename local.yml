@@ -5,10 +5,7 @@
    gather_facts: yes
    user: root
    vars:
-     # File that ansible will use for logs
-     ansible_player_logfile: /var/log/ansible_player*.log
-     filebeat_version: 7.9.2
-     filebeat_host: elasticsearch-system-internal-data.lma-dev.wbx2.com:443
+
      
    vars_files:
      - group_vars/main.yml
