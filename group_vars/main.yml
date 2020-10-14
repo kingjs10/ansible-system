@@ -1,55 +1,11 @@
 ---
-# vars file for opendistro-elastic
 
 #---- SYSTEM CONFIGURATION
 
+#TODO: change and move to vault - they are in ssm now
+filebeat_user: logstash
+filebeat_password: "{{ lookup('aws_ssm', '/es/auth/telegraf_password', decrypt=true, ) }}"
+stage: dev
+tag: LMA
+
 NameServer: 8.8.8.8
-
-
-# ElasticSearch Cluster Configuration
-
-ClusterName: app
-ElasticsearchKibanaUsername: kibanaserver
-ElasticsearchKibanaPassword: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          30383938653861323930646230363839636136366535383637313661383433663630383962646462
-          6336313432376638343839393237643861643437316661330a663664333134613838663762346535
-          33396139353533356661316336323861363934393939323062353866626632366630653365386432
-          3631636333663562350a623339376239316665313039313561353338373731636662643863303432
-          3333
-
-######## Start OpenDistro for Elasticsearch Security Demo Configuration ########
-# WARNING: revise all the lines below before you go into production
-
-EsPath: "/etc/elasticsearch/"
-
-PemCertFile: "esnode.pem"
-PemKeyFile: "esnode-key.pem"
-PemTrustedCasFile: "root-ca.pem"
-
-
-
-OpendistroSecuritySslTransportPemCertFilepath: "{{ EsPath }}{{ PemCertFile }}" #"esnode.pem"
-OpendistroSecuritySslTransportPemKeyFilePath: "{{ EsPath }}{{ PemKeyFile }}" #"esnode-key.pem"
-OpendistroSecuritySslTransportPemTrustedCasFilePath: "{{ EsPath }}{{ PemTrustedCasFile }}" #"root-ca.pem"
-OpendistroSecuritySslTransportEnforceHostnameVerification: false
-OpendistroSecuritySslHttpEnabled: false
-OpendistroSecuritySslHttpPemcertFilePath: "{{ EsPath }}{{ PemCertFile }}" #"esnode.pem"
-OpendistroSecuritySslHttpPemkeyFilePath: "{{ EsPath }}{{ PemKeyFile }}" #"esnode-key.pem"
-OpendistroSecuritySslHttpPemtrustedcasFilePath: "{{ EsPath }}{{ PemTrustedCasFile }}" #"root-ca.pem"
-OpendistroSecurityAllowUnsafeDemoCertificates: true
-OpendistroSecurityAllowDefaultInitSecurityIndex: true
-OpendistroSecurityAuthcz_admin_dn:
-  - CN=kirk,OU=client,O=client,L=test, C=de
-
-#fixme
-#https://opendistro.github.io/for-elasticsearch-docs/docs/security/configuration/disable/  
-opendistro_security.disabled: true
-OpendistroSecurityAuditType: internal_elasticsearch
-OpendistroSecurityEnableSnapshotRestorePrivilege: true
-OpendistroSecurityCheckSnapshotRestoreWritePrivileges: true
-OpendistroSecurityRestapiRolesEnabled: ["all_access", "security_rest_api_access"]
-ClusterRoutingAllocationDiskThresholdEnabled: false
-DiscoveryZenMinimumMasterNodes: 3
-NodeMaxLocalStorageNodes: 3
-######## End OpenDistro for Elasticsearch Security Demo Configuration ########
