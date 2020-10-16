@@ -23,6 +23,8 @@
       - chrony
       - telegraf
       - inetutils-traceroute
+  ignore_errors: True
+
 
 #pull the hostname from aws tags
 - name: Find the hostname from meta data
