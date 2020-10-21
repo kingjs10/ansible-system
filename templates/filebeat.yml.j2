@@ -168,7 +168,7 @@ output.elasticsearch:
 setup.ilm.enabled: "false"
 setup.ilm.check_exists: "false"
 setup.template.name: "logstash-lma-system-rollover"
-setup.template.pattern: "logstash-lma-system-rollover"
+setup.template.pattern: "logstash-lma-system-*"
 setup.template.settings:
   index.number_of_shards: 3
   index.number_of_replicas: 1
