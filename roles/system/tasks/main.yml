@@ -151,6 +151,7 @@
   register: filebeat_configuration
   notify:
     - filebeat restart
+  ignore_errors: True
 
 - name: add filebeat service to onboot
   service: name=filebeat enabled=yes

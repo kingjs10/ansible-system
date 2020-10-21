@@ -166,6 +166,11 @@ output.elasticsearch:
   ssl.verification_mode: "none"
 setup.ilm.enabled: "false"
 setup.ilm.check_exists: "false"
+setup.template.name: "logstash-lma-system-rollover"
+setup.template.pattern: "logstash-lma-system-rollover"
+setup.template.settings:
+  index.number_of_shards: 3
+  index.number_of_replicas: 1
 # ------------------------------ Logstash Output -------------------------------
 #output.logstash:
   # The Logstash hosts
