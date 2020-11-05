@@ -167,10 +167,10 @@ output.elasticsearch:
   ssl.verification_mode: "none"
 setup.ilm.enabled: "false"
 setup.ilm.check_exists: "false"
-setup.template.name: "logstash-lma-system"
-setup.template.pattern: "logstash-lma-system-*"
+setup.template.name: "logstash-trash-system"
+setup.template.pattern: "logstash-trash-system-*"
 setup.template.settings:
-  index.number_of_shards: 3
+  index.number_of_shards: 6
   index.number_of_replicas: 1
 # ------------------------------ Logstash Output -------------------------------
 #output.logstash:
