@@ -118,6 +118,14 @@
   become: yes
   when: telegraf_check_deb.rc == 1
 
+- name: Install telegraf
+  apt:
+    pkg:
+      - telegraf
+        ignore_errors: True
+  when: telegraf_check_deb.rc == 1
+
+
 - name: Wait for automatic system updates
   become: yes
   shell: while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 1; done;
