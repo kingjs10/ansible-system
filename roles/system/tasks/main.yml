@@ -122,7 +122,7 @@
   apt:
     pkg:
       - telegraf
-        ignore_errors: True
+  ignore_errors: True
   when: telegraf_check_deb.rc == 1
 
 
