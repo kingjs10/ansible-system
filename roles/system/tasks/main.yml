@@ -21,7 +21,6 @@
       - bash-completion
       - zip
       - chrony
-      - telegraf
       - inetutils-traceroute
   ignore_errors: True
 
