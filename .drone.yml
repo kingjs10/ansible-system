@@ -14,9 +14,21 @@ steps:
     AWS_DEFAULT_REGION: us-east-1
   commands:
     - pip install awscli ansible-lint
-    #- "find . -maxdepth 1 -name '*.yml' | sort | grep -v '.drone.yml' | xargs ansible-playbook --syntax-check --list-tasks"
-    #- "find . -maxdepth 1 -name '*.yml' | sort | grep -v '.drone.yml' | xargs ansible-lint"
     - git config remote.awsdev.url >&- || git remote add awsdev https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
     - git config --global credential.helper '!aws codecommit credential-helper $@'
     - git config --global credential.UseHttpPath true
     - git push -u awsdev $DRONE_BRANCH
+- name: push_int_us-east-1
+  image: python:2.7
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: INT_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: INT_AWS_SECRET_ACCESS_KEY
+    AWS_DEFAULT_REGION: us-east-1
+  commands:
+    - pip install awscli ansible-lint
+    - git config remote.awsint.url >&- || git remote add awsint https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
+    - git config --global credential.helper '!aws codecommit credential-helper $@'
+    - git config --global credential.UseHttpPath true
+    - git push -u awsint $DRONE_BRANCH
