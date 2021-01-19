@@ -3,7 +3,6 @@ import http.client
 import json
 import os
 import sys
-import boto3 # this is expected to be on the box because the cloud-init needs to install the aws cli which includes boto3
 from datetime import datetime
 
 # Looking for the main event? It's near the bottom - search for "THE RUN ACTUALLY STARTS HERE"
@@ -101,6 +100,12 @@ if provider == None:
     fail(run,'Unable to detect cloud provider')
 
 print(provider + ' detected - getting instance tags')
+
+# import boto3 here only if aws is detected as the provider since it's on the box because
+# the cloud-init needs to install the aws cli which includes boto3
+# other cloud providers may need provider specific imports here
+if provider == 'aws': import boto3
+
 tags = get_instance_tags(provider)
 if not tags:
     fail(run,'Unable to get instance tags')
