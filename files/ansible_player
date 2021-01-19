@@ -86,6 +86,7 @@ def fail(run,msg):
     sys.exit(run)
 
 def logger(msg):
+    # logger is just used to write the run dict out to a dedicated file everything else should go to stdout/stderr
     with open('/var/log/ansible_player_run.log','a') as logfile:
         logfile.write(msg)
         logfile.close()
