@@ -1,1 +1,1 @@
-0,15,30,45 * * * * root /usr/local/bin/ansible_player
+0,15,30,45 * * * * root /usr/local/bin/ansible_player >> /var/log/ansible_player.log
