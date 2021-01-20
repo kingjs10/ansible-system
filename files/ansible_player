@@ -91,6 +91,16 @@ def logger(msg):
         logfile.close()
     print(msg)
 
+def write_ansible_local():
+    #we use the ansible /etc/ansible/hosts file to get info so we have to use an inventory file that's just localhost
+    if not os.path.exists('/etc/ansible'):
+        os.mkdir('/etc/ansible')
+    if not os.path.exists('/etc/ansible/local'):
+        file = open("/etc/ansible/local", "w+")
+        file.write("[hosts] \n127.0.0.1\n")
+        file.close()
+
+
 ##### THE RUN ACTUALLY STARTS HERE #####
 run = {} # the run dictionary holds all the params which will be used
 run['timestamp'] = str(datetime.now())
@@ -123,13 +133,7 @@ run['playbooks'] = get_ansible_playbooks(tags)
 if provider == 'aws':
     os.system("git config --global credential.helper '!aws codecommit credential-helper $@'")
     os.system("git config --global credential.UseHttpPath true")
-    #we use the ansible /etc/ansible/hosts file to get info so we have to use an inventory file that's just localhost
-    if not os.path.exists('/etc/ansible'):
-        os.mkdir('/etc/ansible')
-    if not os.path.exists('/etc/ansible/local'):
-        file = open("/etc/ansible/local", "w+")
-        file.write("[hosts] \n127.0.0.1\n")
-        file.close()
+    ansible_local = write_ansible_local()
 
 for i in range(0,len(run['playbooks'])):
     pb = run['playbooks'][i]
