@@ -1,1 +1,1 @@
-0,15,30,45 * * * * root /usr/local/bin/ansible_player >> /var/log/ansible_player.log 2>&1
+0,15,30,45 * * * * root /usr/local/bin/ansible_player >> /var/log/ansible_player.`date "+%Y%m%d%H%M%S"`.log 2>&1

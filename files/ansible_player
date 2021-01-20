@@ -129,7 +129,7 @@ for i in range(0,len(run['playbooks'])):
     pb = run['playbooks'][i]
     cmd_to_run = 'ansible-pull ' + run['extra_args'] + ' -i /var/lib/ansible/local/' + pb['repo'] + '/hosts' + ' -d /var/lib/ansible/local/' + pb['repo'] + ' -U ' + run['vcs'] + pb['repo'] + ' -C ' + pb['branch'] + ' ' + pb['file']
     print(cmd_to_run)
-    res = os.system(cmd_to_run + ">>/var/log/ansible_player_"+ pb['repo']+".log")
+    res = os.system(cmd_to_run)
     run['playbooks'][i]['result'] = res
     print("result: ", res)
 
