@@ -35,12 +35,15 @@ def get_instance_tags(provider):
         body = res.read().decode('utf-8')
         conn.close
         data = json.loads(body)
-        os.environ['AWS_DEFAULT_REGION'] = data['region']
-
-        client = boto3.client('ec2')
-        tag_data = client.describe_tags(Filters=[{'Name':'resource-id','Values':[data['instanceId']]}])
+        
+        # I didn't want this. I wanted to use the AWS API to DescribeTags. The API is mind shredding, and instead of depending on boto
+        # I figured it was easier to just expect the aws cli to be here. Seriously, THIS is a nightmare: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/CommonParameters.html
+        stream = os.popen('aws ec2 describe-tags --filters "Name=resource-id,Values=' + data['instanceId'] + '" --region ' + data['region'])
+        output = stream.read()
+        tag_data = json.loads(output)
         for tag in tag_data['Tags']:
-            tags[tag['Key']] = tag['Value']
+            tags[tag['Key']] = tag['Value']        
+
 
     if provider == 'p3': # other openstack providers should be handled here, don't copy/paste this mess
         conn = http.client.HTTPConnection('169.254.169.254:80',timeout=5)
