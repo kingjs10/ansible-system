@@ -117,7 +117,7 @@ print(provider + ' detected - getting instance tags')
 # import boto3 here only if aws is detected as the provider since it's on the box because
 # the cloud-init needs to install the aws cli which includes boto3
 # other cloud providers may need provider specific imports here
-if provider == 'aws': import boto3
+#if provider == 'aws': import boto3
 
 tags = get_instance_tags(provider)
 if not tags:
