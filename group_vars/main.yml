@@ -8,7 +8,8 @@ filebeat_password: "{{ lookup('aws_ssm', '/es/auth/logstash_password', decrypt=t
 # File that ansible will use for logs
 ansible_player_logfile: /var/log/ansible_player*.log
 filebeat_version: 7.9.2
-filebeat_host: internal-es-system-data.lma-dev.wbx2.com:443
+filebeat_host: "{{ instance_ec2_facts['instances'][0]['tags']['log_host'] }}:443"
+filebeat_index: "{{ instance_ec2_facts['instances'][0]['tags']['log_index'] }}"
 stage: dev
 tag: LMA
 
