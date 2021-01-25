@@ -156,7 +156,7 @@ output.elasticsearch:
   # Array of hosts to connect to.
   hosts: ["{{ filebeat_host }}"]
   # index: "%{[fields.log_type]}-%{[agent.version]}-%{+yyyy.MM.dd}"
-  index: "logstash-system-lma"
+  index: "{{ filebeat_index }}"
   # Protocol - either `http` (default) or `https`.
   protocol: "https"
 
@@ -167,8 +167,8 @@ output.elasticsearch:
   ssl.verification_mode: "none"
 setup.ilm.enabled: "false"
 setup.ilm.check_exists: "false"
-setup.template.name: "logstash-system-lma"
-setup.template.pattern: "logstash-system-lma-*"
+setup.template.name: "{{ filebeat_index }}"
+setup.template.pattern: "{{ filebeat_index }}-*"
 setup.template.settings:
   index.number_of_shards: 6
   index.number_of_replicas: 1
