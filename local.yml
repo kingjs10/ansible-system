@@ -12,3 +12,14 @@
      #- "vars/{{ Environment }}/main.yml"
    roles:
      - system
+
+   pre_tasks:
+
+        - name: gather ec2 facts
+          ec2_metadata_facts:
+
+        - name: get ec2 instance facts
+          ec2_instance_info:
+            region: "{{ ansible_ec2_placement_region }}"
+            instance_ids: "{{ ansible_ec2_instance_id }}"
+          register: instance_ec2_facts
