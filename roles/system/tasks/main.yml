@@ -156,6 +156,15 @@
       - osquery
   ignore_errors: True
   when: osquery_check_deb.rc == 1
+
+- name: add osqueryd service to onboot
+  service: name=osqueryd enabled=yes
+  become: yes
+
+- name: start osqueryd service
+  service: name=osqueryd state=started
+  become: yes
+
   #################################
 
 - name: Wait for automatic system updates
