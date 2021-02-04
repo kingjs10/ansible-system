@@ -16,3 +16,7 @@
 - name: filebeat restart
   service: name=filebeat state=restarted
   become: yes
+
+- name: osqueryd restart
+  service: name=osqueryd state=restarted
+  become: yes
