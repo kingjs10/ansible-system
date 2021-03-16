@@ -13,7 +13,7 @@ filebeat_index: "{{ instance_ec2_facts['instances'][0]['tags']['log_index'] }}"
 
 domainname: "{{ instance_ec2_facts['instances'][0]['tags']['dns_root_domain_name'] }}"
 hostname: "{{ instance_ec2_facts['instances'][0]['tags']['hostname'] }}"
-
+region: "{{ ansible_ec2_placement_region }}"
 stage: "{{ instance_ec2_facts['instances'][0]['tags']['stage'] }}"
 tag: LMA
 
