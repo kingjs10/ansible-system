@@ -14,6 +14,8 @@
 # See man:systemd-resolved.service(8) for details about the supported modes of
 # operation for /etc/resolv.conf.
 
-nameserver {{ NameServer }}
+nameserver {{ NameServer1 }}
+nameserver {{ NameServer2 }}
+nameserver {{ NameServer3 }}
 options edns0
 search {{ region }}.{{ domainname }}
