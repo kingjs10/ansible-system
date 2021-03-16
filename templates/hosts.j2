@@ -3,6 +3,4 @@
 127.0.0.1   localhost
 ::1         localhost ip6-localhost ip6-loopback
 
-# Hosts managed by playbook
-
 {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}   {{ hostname }} {{ hostname }}.{{ region }}.{{ domainname }}
