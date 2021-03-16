@@ -35,7 +35,7 @@
  
 - name: Set a hostname
   ansible.builtin.hostname:
-    name: "{{ hostname }}.{{ domainname }}"
+    name: "{{ hostname }}.{{ region }}.{{ domainname }}"
     use: systemd
 
 - name: set the domainname
