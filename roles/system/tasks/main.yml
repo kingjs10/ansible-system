@@ -72,24 +72,6 @@
     group: root
     mode: 0644
 
-# - name: set hostname var
-#   shell: cat /etc/hostname
-#   args:
-#     executable: /bin/bash
-#     warn: no
-#   register: local_hostname
-
-# - name: configure /etc/hostname file
-#   template:
-#     src: templates/hostname.j2
-#     dest: /etc/hostname
-#     owner: root
-#     group: root
-#     mode: 0644
-#   become: yes
-#   notify:
-#     - syslog restart
-
 - name: configure hosts file
   template:
     src: templates/hosts.j2
