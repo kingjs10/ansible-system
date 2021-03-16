@@ -39,7 +39,7 @@
     use: systemd
 
 - name: set the domainname
-  shell: domainname {{ domainname }}
+  shell: domainname {{ region }}.{{ domainname }}
   args:
     executable: /bin/bash
     warn: no
