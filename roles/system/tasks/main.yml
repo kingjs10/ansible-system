@@ -24,6 +24,15 @@
       - inetutils-traceroute
   ignore_errors: True
 
+- name: configure /etc/bash.bashrc file
+  template:
+    src: templates/bash.bashrc.j2
+    dest: /etc/bash.bashrc
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+ 
 - name: Set a hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}.{{ domainname }}"
@@ -34,6 +43,18 @@
   args:
     executable: /bin/bash
     warn: no
+
+- name: configure /etc/hostname file
+  template:
+    src: templates/hostname.j2
+    dest: /etc/hostname
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  notify:
+    - syslog restart
+
 
 - name: maintain ansible_player
   copy:
