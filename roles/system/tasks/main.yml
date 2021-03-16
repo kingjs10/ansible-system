@@ -26,7 +26,8 @@
 
 - name: Set a hostname
   ansible.builtin.hostname:
-    name: "{{ hostname }}"
+    name: "{{ hostname }}.{{ domainname }}"
+    use: systemd
 
 - name: maintain ansible_player
   copy:
