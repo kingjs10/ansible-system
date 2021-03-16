@@ -38,6 +38,12 @@
     executable: /bin/bash
     warn: no
 
+- name: Set a hostname
+  ansible.builtin.hostname:
+    name: {{ hostname }}
+    use:  systemd
+
+
 - name: maintain ansible_player
   copy:
     src: files/ansible_player
