@@ -29,6 +29,12 @@
     name: "{{ hostname }}.{{ domainname }}"
     use: systemd
 
+- name: set the domainname
+  shell: domainname {{ domainname }}
+  args:
+    executable: /bin/bash
+    warn: no
+
 - name: maintain ansible_player
   copy:
     src: files/ansible_player
