@@ -32,12 +32,6 @@
     warn: no
   register: local_hostname
 
-- name: read in the hostname
-  shell: hostname $(cat /etc/hostname)
-  args:
-    executable: /bin/bash
-    warn: no
-
 - name: Set a hostname
   ansible.builtin.hostname:
     name: {{ hostname }}
