@@ -10,7 +10,11 @@ ansible_player_logfile: /var/log/ansible_player*.log
 filebeat_version: 7.9.2
 filebeat_host: "{{ instance_ec2_facts['instances'][0]['tags']['log_hostname'] }}:443"
 filebeat_index: "{{ instance_ec2_facts['instances'][0]['tags']['log_index'] }}"
-stage: dev
+
+domainname: "{{ instance_ec2_facts['instances'][0]['tags']['dns_root_domain_name'] }}"
+hostname: "{{ instance_ec2_facts['instances'][0]['tags']['hostname'] }}"
+
+stage: "{{ instance_ec2_facts['instances'][0]['tags']['stage'] }}"
 tag: LMA
 
 NameServer: 8.8.8.8
