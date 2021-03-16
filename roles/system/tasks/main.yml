@@ -33,9 +33,9 @@
     warn: no
   register: local_hostname
 
-- name: Set a hostname
-  ansible.builtin.hostname:
-    name: {{ local_hostname.stdout }}
+# - name: Set a hostname
+#   ansible.builtin.hostname:
+#     name: {{ local_hostname.stdout }}
 
 - name: maintain ansible_player
   copy:
