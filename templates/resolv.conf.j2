@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 # This file is managed by man:systemd-resolved(8). Do not edit.
 #
 # This is a dynamic resolv.conf file for connecting local clients to the
@@ -14,6 +15,8 @@
 # See man:systemd-resolved.service(8) for details about the supported modes of
 # operation for /etc/resolv.conf.
 
-nameserver {{ NameServer }}
+nameserver {{ NameServer1 }}
+nameserver {{ NameServer2 }}
+nameserver {{ NameServer3 }}
 options edns0
-search wbx9k.com
+search {{ region }}.{{ domainname }}

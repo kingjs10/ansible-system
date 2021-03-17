@@ -24,20 +24,37 @@
       - inetutils-traceroute
   ignore_errors: True
 
+- name: configure /etc/bash.bashrc file
+  template:
+    src: templates/bash.bashrc.j2
+    dest: /etc/bash.bashrc
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+ 
+- name: Set a hostname
+  ansible.builtin.hostname:
+    name: "{{ hostname }}.{{ region }}.{{ domainname }}"
+    use: systemd
 
-#pull the hostname from aws tags
-- name: Find the hostname from meta data
-  shell: set -o pipefail && true |echo $(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" --output=text |grep -m1 hostname | awk '{print $5}')
+- name: set the domainname
+  shell: domainname {{ region }}.{{ domainname }}
   args:
     executable: /bin/bash
     warn: no
-  register: local_hostname
 
-- name: read in the hostname
-  shell: hostname $(cat /etc/hostname)
-  args:
-    executable: /bin/bash
-    warn: no
+- name: configure /etc/hostname file
+  template:
+    src: templates/hostname.j2
+    dest: /etc/hostname
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  notify:
+    - syslog restart
+
 
 - name: maintain ansible_player
   copy:
@@ -54,24 +71,6 @@
     owner: root
     group: root
     mode: 0644
-
-# - name: set hostname var
-#   shell: cat /etc/hostname
-#   args:
-#     executable: /bin/bash
-#     warn: no
-#   register: local_hostname
-
-- name: configure /etc/hostname file
-  template:
-    src: templates/hostname.j2
-    dest: /etc/hostname
-    owner: root
-    group: root
-    mode: 0644
-  become: yes
-  notify:
-    - syslog restart
 
 - name: configure hosts file
   template:
