@@ -32,7 +32,7 @@
     group: root
     mode: 0644
   become: yes
- 
+
 - name: Set a hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}.{{ region }}.{{ domainname }}"
@@ -54,7 +54,6 @@
   become: yes
   notify:
     - syslog restart
-
 
 - name: maintain ansible_player
   copy:
@@ -220,14 +219,10 @@
 
 #/filebeat
 
-
-
-
 - name: Install later version of awscli than what's available in ubuntu's repo
   pip:
     name: awscli>1.18.69
     executable: /usr/bin/pip3
-
 
 - name: configure telegraf.conf
   template:
@@ -292,18 +287,16 @@
     mode: 0644
   become: yes
 
-
 ########
 #chrony - ntp
 ######
 - name: Setup Chrony to use aws time server
   lineinfile:
     path: /etc/chrony/chrony.conf
-    regexp: 'server 169.254.169.123'
+    regexp: "server 169.254.169.123"
     line: server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
   notify:
     - chrony restart
-
 
 ########
 #add ansible.cfg
@@ -318,7 +311,6 @@
     group: root
     mode: 0660
   become: yes
-
 
 ######
 ##sysctl
@@ -391,5 +383,3 @@
     sysctl_set: yes
     state: present
     reload: yes
-
-
