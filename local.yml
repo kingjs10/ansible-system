@@ -1,25 +1,23 @@
 ---
- - name: Maintain base system config
-   hosts: localhost
-   connection: local
-   gather_facts: yes
-   user: root
-   vars:
+- name: Maintain base system config
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  user: root
+  vars:
 
-     
-   vars_files:
-     - group_vars/main.yml
-     #- "vars/{{ Environment }}/main.yml"
-   roles:
-     - system
+  vars_files:
+    - group_vars/main.yml
+    #- "vars/{{ Environment }}/main.yml"
+  roles:
+    - system
 
-   pre_tasks:
+  pre_tasks:
+    - name: gather ec2 facts
+      ec2_metadata_facts:
 
-        - name: gather ec2 facts
-          ec2_metadata_facts:
-
-        - name: get ec2 instance facts
-          ec2_instance_info:
-            region: "{{ ansible_ec2_placement_region }}"
-            instance_ids: "{{ ansible_ec2_instance_id }}"
-          register: instance_ec2_facts
+    - name: get ec2 instance facts
+      ec2_instance_info:
+        region: "{{ ansible_ec2_placement_region }}"
+        instance_ids: "{{ ansible_ec2_instance_id }}"
+      register: instance_ec2_facts
