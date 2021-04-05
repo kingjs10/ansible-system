@@ -102,7 +102,7 @@ setup.template.settings:
 tags: {{ tag }}
 # Optional fields that you can specify to add additional information to the
 # output.
-fields:
+lma:
   stage: {{ stage }}
   tag: {{ tag }}
   cluster: {{ instance_ec2_facts['instances'][0]['tags']['cluster'] | default('no_cluster') }}
