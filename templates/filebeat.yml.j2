@@ -105,6 +105,8 @@ tags: {{ tag }}
 fields:
   stage: {{ stage }}
   tag: {{ tag }}
+  cluster: {{ instance_ec2_facts['instances'][0]['tags']['cluster'] | default('no_cluster') }}
+  role: {{ instance_ec2_facts['instances'][0]['tags']['role'] | default('no_role') }}
 
 # ================================= Dashboards =================================
 # These settings control loading the sample dashboards to the Kibana index. Loading
