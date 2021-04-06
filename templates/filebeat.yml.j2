@@ -103,8 +103,8 @@ tags: {{ tag }}
 # Optional fields that you can specify to add additional information to the
 # output.
 fields:
-  stage: {{ stage }}
-  tag: {{ tag }}
+  stage: {{ stage| default('no_stage_defined' }}
+  tag: {{ tag | default('no_tags_defined' }}
   cluster: {{ instance_ec2_facts['instances'][0]['tags']['cluster'] | default('no_cluster') }}
   role: {{ instance_ec2_facts['instances'][0]['tags']['role'] | default('no_role') }}
   hostname: {{ instance_ec2_facts['instances'][0]['tags']['hostname'] | default('no_hostname_defined')}}
