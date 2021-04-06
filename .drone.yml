@@ -51,13 +51,13 @@ name: DEV_AWS_SECRET_ACCESS_KEY
 get:
   path: secret/data/CI/drone/aws/dev
   name: AWS_SECRET_ACCESS_KEY 
-
+---
 kind: secret
 name: INT_AWS_SECRET_ACCESS_KEY
 get:
   path: secret/data/CI/drone/aws/int
   name: AWS_SECRET_ACCESS_KEY 
-
+---
 kind: secret
 name: PRD_AWS_SECRET_ACCESS_KEY
 get:
