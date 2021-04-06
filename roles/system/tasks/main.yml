@@ -208,7 +208,7 @@
   service: name=filebeat state=started
   become: yes
 
-- name: test to see if filebeats system module is enabled
+- name: test to see if filebeat system module is enabled
   stat:
     path: /etc/filebeat/modules.d/system.yml
   register: filebeat_system_module
