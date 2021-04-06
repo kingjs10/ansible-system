@@ -208,12 +208,20 @@
   service: name=filebeat state=started
   become: yes
 
+- name: test to see if filebeat system module is enabled
+  stat:
+    path: /etc/filebeat/modules.d/system.yml
+  register: filebeat_system_module
+  tags:
+    - filebeat_configuration
+
 - name: enable filebeat system modules
   shell: set -o pipefail && true |/usr/bin/filebeat modules enable system
   args:
     executable: /bin/bash
     warn: no
   register: filebeat_configuration
+  when: filebeat_system_module.stat|bool
   notify:
     - filebeat restart
 
