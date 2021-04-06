@@ -39,7 +39,7 @@ steps:
     AWS_DEFAULT_REGION: us-east-1
   commands:
     - pip install awscli ansible-lint
-    - git config remote.awsint.url >&- || git remote add awsprd https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
+    - git config remote.awsprd.url >&- || git remote add awsprd https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
     - git config --global credential.helper '!aws codecommit credential-helper $@'
     - git config --global credential.UseHttpPath true
     - git push -u awsprd $DRONE_BRANCH
