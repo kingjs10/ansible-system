@@ -4,11 +4,10 @@ name: default
 
 steps:
 
-- name: push_dev
+- name: push_dev_us-east-1
   image: python:2.7
   environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: DEV_AWS_ACCESS_KEY_ID
+    AWS_ACCESS_KEY_ID: AKIAZTE3ISWSAJI7UZRK
     AWS_SECRET_ACCESS_KEY:
       from_secret: DEV_AWS_SECRET_ACCESS_KEY
     AWS_DEFAULT_REGION: us-east-1
@@ -21,13 +20,12 @@ steps:
 - name: push_int_us-east-1
   image: python:2.7
   environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: INT_AWS_ACCESS_KEY_ID
+    AWS_ACCESS_KEY_ID: AKIAYZGMQSFIXNIOS7JT
     AWS_SECRET_ACCESS_KEY:
       from_secret: INT_AWS_SECRET_ACCESS_KEY
     AWS_DEFAULT_REGION: us-east-1
   commands:
-    - pip install awscli ansible-lint
+    - pip install awscli
     - git config remote.awsint.url >&- || git remote add awsint https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
     - git config --global credential.helper '!aws codecommit credential-helper $@'
     - git config --global credential.UseHttpPath true
@@ -35,14 +33,33 @@ steps:
 - name: push_prd_us-east-1
   image: python:2.7
   environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: PRD_AWS_ACCESS_KEY_ID
+    AWS_ACCESS_KEY_ID: AKIA3V53VHEUXV3MO7XA
     AWS_SECRET_ACCESS_KEY:
       from_secret: PRD_AWS_SECRET_ACCESS_KEY
     AWS_DEFAULT_REGION: us-east-1
   commands:
-    - pip install awscli ansible-lint
-    - git config remote.awsint.url >&- || git remote add awsint https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
+    - pip install awscli
+    - git config remote.awsprd.url >&- || git remote add awsprd https://git-codecommit.us-east-1.amazonaws.com/v1/repos/ansible-system
     - git config --global credential.helper '!aws codecommit credential-helper $@'
     - git config --global credential.UseHttpPath true
-    - git push -u awsint $DRONE_BRANCH
+    - git push -u awsprd $DRONE_BRANCH
+
+
+---
+kind: secret
+name: DEV_AWS_SECRET_ACCESS_KEY
+get:
+  path: secret/data/CI/drone/aws/dev
+  name: AWS_SECRET_ACCESS_KEY 
+---
+kind: secret
+name: INT_AWS_SECRET_ACCESS_KEY
+get:
+  path: secret/data/CI/drone/aws/int
+  name: AWS_SECRET_ACCESS_KEY 
+---
+kind: secret
+name: PRD_AWS_SECRET_ACCESS_KEY
+get:
+  path: secret/data/CI/drone/aws/prd
+  name: AWS_SECRET_ACCESS_KEY 
