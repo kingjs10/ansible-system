@@ -100,7 +100,7 @@ setup.template.settings:
 # The tags of the shipper are included in their own field with each
 # transaction published.
 #tags: ["service-X", "web-tier"]
-tag: {{ tag | default('no_tags_defined',true) }}
+#tag: {{ tag | default('no_tags_defined',true) }}
 
 # Optional fields that you can specify to add additional information to the
 # output.
@@ -112,6 +112,7 @@ fields:
   role: {{ instance_ec2_facts['instances'][0]['tags']['role'] | default('no_role') }}
   hostname: {{ instance_ec2_facts['instances'][0]['tags']['hostname'] | default('no_hostname_defined')}}
   owner: {{ owner }}
+  target: {{ target }}
 
 # ================================= Dashboards =================================
 # These settings control loading the sample dashboards to the Kibana index. Loading

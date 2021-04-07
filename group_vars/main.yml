@@ -17,6 +17,7 @@ region: "{{ ansible_ec2_placement_region }}"
 stage: "{{ instance_ec2_facts['instances'][0]['tags']['stage'] }}"
 tag: LMA
 owner: "no-reply@cisco.com"
+target: "elasticsearch, aggregate"
 
 
 NameServer1: 208.67.222.222
