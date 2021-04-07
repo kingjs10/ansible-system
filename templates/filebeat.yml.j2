@@ -100,15 +100,17 @@ setup.template.settings:
 # The tags of the shipper are included in their own field with each
 # transaction published.
 #tags: ["service-X", "web-tier"]
-tags: {{ tag }}
+tag: {{ tag | default('no_tags_defined',true) }}
+cluster: {{ instance_ec2_facts['instances'][0]['tags']['cluster'] | default('no_cluster') }}
+role: {{ instance_ec2_facts['instances'][0]['tags']['role'] | default('no_role') }}
+hostname: {{ instance_ec2_facts['instances'][0]['tags']['hostname'] | default('no_hostname_defined')}}
+stage: {{ instance_ec2_facts['instances'][0]['tags']['stage'] | default('no_stage_defined',true) }}
+owner: LMA
+
 # Optional fields that you can specify to add additional information to the
 # output.
-fields:
-  stage: {{ instance_ec2_facts['instances'][0]['tags']['stage'] | default('no_stage_defined',true) }}
-  tag: {{ tag | default('no_tags_defined',true) }}
-  cluster: {{ instance_ec2_facts['instances'][0]['tags']['cluster'] | default('no_cluster') }}
-  role: {{ instance_ec2_facts['instances'][0]['tags']['role'] | default('no_role') }}
-  hostname: {{ instance_ec2_facts['instances'][0]['tags']['hostname'] | default('no_hostname_defined')}}
+# fields:
+
 
 # ================================= Dashboards =================================
 # These settings control loading the sample dashboards to the Kibana index. Loading
