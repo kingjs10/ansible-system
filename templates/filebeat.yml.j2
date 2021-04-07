@@ -114,7 +114,8 @@ fields:
   owner: {{ owner }}
   target: {{ target }}
   placement_group: {{ instance_ec2_facts['instances'][0]['placement']['group-name'] | default('no_placement_group_defined')}}
-  placement: {{ ansible_ec2_placement_name }}
+  placement: {{ ansible_ec2_placement_name |default('no_placement_group_defined')}}
+
 # ================================= Dashboards =================================
 # These settings control loading the sample dashboards to the Kibana index. Loading
 # the dashboards is disabled by default and can be enabled either by setting the
