@@ -113,7 +113,7 @@ fields:
   hostname: {{ instance_ec2_facts['instances'][0]['tags']['hostname'] | default('no_hostname_defined')}}
   owner: {{ owner }}
   target: {{ target }}
-  placement_group: {{ ansible_facts['placement']['group-name'] | default('no_placement_group_defined')}}
+  placement_group: {{ ['ansible_facts']['placement']['group-name'] | default('no_placement_group_defined')}}
 
 
 # ================================= Dashboards =================================
