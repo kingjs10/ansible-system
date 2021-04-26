@@ -3,6 +3,14 @@
 - name: get ec2 facts
   ec2_metadata_facts:
 
+- name: Copy lock.py
+  copy:
+    src: files/lock.py
+    dest: /usr/local/bin/lock.py
+    owner: root
+    group: root
+    mode: "0740"
+
 #install common packages
 - name: Install a list of packages
   apt:
