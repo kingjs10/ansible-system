@@ -229,7 +229,6 @@
     executable: /bin/bash
     warn: no
   register: filebeat_configuration
-  when: filebeat_system_module.stat|bool
   notify:
     - filebeat restart
 
