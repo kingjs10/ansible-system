@@ -23,7 +23,7 @@ args = parser.parse_args()
 
 
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('ElasticsearchLockTable')
+table = dynamodb.Table('LockTable')
 current_time = datetime.datetime.utcnow()
 response = table.scan(FilterExpression = Attr('cluster').eq(args.cluster))
 items = response['Items']
