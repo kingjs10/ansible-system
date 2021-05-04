@@ -121,6 +121,7 @@
     state: present
     filename: influxdb
   become: yes
+  ignore_errors: True
   when: telegraf_check_deb.rc == 1
 
 - name: Install telegraf
@@ -146,6 +147,7 @@
     keyserver: keyserver.ubuntu.com
     id: 1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
   become: yes
+  ignore_errors: True
   when: osquery_check_deb.rc == 1
 
 - name: add osquery repository
@@ -154,6 +156,7 @@
     state: present
     filename: osquery
   become: yes
+  ignore_errors: True
   when: osquery_check_deb.rc == 1
 
 - name: Install osquery
@@ -166,10 +169,12 @@
 - name: add osqueryd service to onboot
   service: name=osqueryd enabled=yes
   become: yes
+  ignore_errors: True
 
 - name: start osqueryd service
   service: name=osqueryd state=started
   become: yes
+  ignore_errors: True
 
   #################################
 
@@ -182,6 +187,7 @@
   command: dpkg-query -W filebeat
   register: filebeat_oss_check_deb
   failed_when: filebeat_oss_check_deb.rc > 1
+  ignore_errors: True
   changed_when: filebeat_oss_check_deb.rc == 1
 
 - name: Download filebeat_oss
@@ -189,11 +195,13 @@
     url=" https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-{{ filebeat_version }}-amd64.deb"
     dest="/home/ubuntu/filebeat-oss-{{ filebeat_version }}-amd64.deb"
   when: filebeat_oss_check_deb.rc == 1
+  ignore_errors: True
 
 - name: Install filebeat-{{ filebeat_version }}
   apt: deb="/home/ubuntu/filebeat-oss-{{ filebeat_version }}-amd64.deb"
   become: yes
   when: filebeat_oss_check_deb.rc == 1
+  ignore_errors: True
 
 - name: configure filebeat.yml
   template:
@@ -215,6 +223,7 @@
 - name: start filebeat service
   service: name=filebeat state=started
   become: yes
+  ignore_errors: True
 
 - name: test to see if filebeat system module is enabled
   stat:
